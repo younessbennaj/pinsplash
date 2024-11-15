@@ -23,7 +23,7 @@ jobs:
         run: yarn lint
 
       - name: Check formatting with Prettier
-        run: prettier --check "src/**/*.{ts,tsx,js,jsx,json}"
+        run: yarn prettier --check "src/**/*.{ts,tsx,js,jsx,json}"
 
       - name: Build the project
         run: yarn build
