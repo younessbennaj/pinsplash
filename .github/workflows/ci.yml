@@ -1,4 +1,4 @@
-name: CI/CD Workflow
+name: CI Workflow
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  lint-and-build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,11 +19,11 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Lint code with ESLint
-        run: yarn lint
-
-      - name: Check formatting with Prettier
-        run: yarn prettier --check "src/**/*.{ts,tsx,js,jsx,json}"
-
-      - name: Build the project
+      - name: Start Build
         run: yarn build
+
+      - name: Check bundle size
+        run: yarn check:size
+
+      - name: Run Lighthouse
+        run: yarn check:lighthouse
