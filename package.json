@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "husky",
-    "check:lighthouse": "lhci autorun",
+    "check:lighthouse": "node_modules/.bin/lighthouse-ci autorun",
     "check:size": "bundlesize"
   },
   "lint-staged": {
