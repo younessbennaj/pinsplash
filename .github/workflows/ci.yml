@@ -1,0 +1,29 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Lint code with ESLint
+        run: yarn lint
+
+      - name: Check formatting with Prettier
+        run: yarn prettier --check "src/**/*.{ts,tsx,js,jsx,json}"
+
+      - name: Build the project
+        run: yarn build
