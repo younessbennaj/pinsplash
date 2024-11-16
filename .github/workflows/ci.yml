@@ -13,19 +13,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Étape 1 : Checkout du code
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Étape 2 : Installer les dépendances
       - name: Install dependencies
         run: yarn install
 
-      - name: Start Build
+      # Étape 3 : Construire le projet
+      - name: Build the project
         run: yarn build
 
-      - name: Check bundle size
-        run: yarn check:size
+      # Étape 4 : Démarrer le serveur de prévisualisation
+      - name: Start production preview server
+        run: yarn preview &
+        env:
+          PORT: 4173
 
-      - name: run Lighthouse CI
-        run: |
-          yarn add -g @lhci/cli@0.14.x
-          lhci autorun
+      # Étape 5 : Exécuter Lighthouse CI Action
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v8
+        with:
+          urls: http://localhost:4173/
+          uploadArtifacts: temporary-public-storage
