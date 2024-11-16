@@ -20,11 +20,11 @@
   },
   "bundlesize": [
     {
-      "path": "dist/assets/index.js",
+      "path": "dist/assets/index.*.js",
       "maxSize": "150 kB"
     },
     {
-      "path": "dist/assets/style.css",
+      "path": "dist/assets/style.*.css",
       "maxSize": "50 kB"
     }
   ],
