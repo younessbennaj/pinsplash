@@ -9,7 +9,6 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "husky",
-    "check:lighthouse": "node_modules/.bin/lighthouse-ci autorun",
     "check:size": "bundlesize"
   },
   "lint-staged": {
@@ -48,7 +47,6 @@
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.11.0",
     "husky": "^9.1.6",
-    "lighthouse-ci": "^1.13.1",
     "lint-staged": "^15.2.10",
     "postcss": "^8.4.49",
     "prettier": "^3.3.3",
