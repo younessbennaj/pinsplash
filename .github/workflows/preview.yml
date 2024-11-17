@@ -22,18 +22,20 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
-    lighthouse:
-      needs: deploy
-      runs-on: ubuntu-latest
-      steps:
-        # Step 1: Retrieve the Vercel Preview URL
-        - name: vercel-preview-url
-          uses: zentered/vercel-preview-url@v1.1.9
-          if: github.event_name != 'pull_request'
-          id: vercel_preview_url
-          env:
-            VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-            GITHUB_REF: 'main'
-            GITHUB_REPOSITORY: 'younessbennaj/pinsplash'
-          with:
-            vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
+  lighthouse:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Retrieve the Vercel Preview URL
+      - name: vercel-preview-url
+        uses: zentered/vercel-preview-url@v1.1.9
+        if: github.event_name != 'pull_request'
+        id: vercel_preview_url
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          GITHUB_REF: 'main'
+          GITHUB_REPOSITORY: 'younessbennaj/pinsplash'
+        with:
+          vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Get URL
+        run: echo "https://${{ steps.vercel_preview_url.outputs.preview_url }}"
