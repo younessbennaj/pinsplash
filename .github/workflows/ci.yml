@@ -13,17 +13,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Étape 1 : Checkout du dépôt
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Étape 2 : Installer les dépendances
       - name: Install dependencies
         run: yarn install
 
+      # Étape 3 : Construire le projet
       - name: Build the project
         run: yarn build
 
+      # Étape 4 : Capturer l'URL de prévisualisation de Vercel
+      - name: Capture Vercel Preview URL
+        id: vercel_preview_url
+        uses: aaimio/vercel-preview-url-action@v2.2.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Étape 5 : Définir la variable PREVIEW_URL
+      - name: Set PREVIEW_URL environment variable
+        run: echo "PREVIEW_URL=${{ steps.vercel_preview_url.outputs.vercel_preview_url }}" >> $GITHUB_ENV
+
+      # Étape 6 : Exécuter Lighthouse CI en utilisant PREVIEW_URL
       - name: Run Lighthouse CI
         uses: treosh/lighthouse-ci-action@v8
+        env:
+          PREVIEW_URL: ${{ env.PREVIEW_URL }}
         with:
-          urls: http://localhost:4173/
+          urls: ${{ env.PREVIEW_URL }}
           uploadArtifacts: temporary-public-storage
