@@ -41,3 +41,4 @@ jobs:
           urls: ${{needs.deploy.outputs.deployed_url}}
           uploadArtifacts: true
           temporaryPublicStorage: true
+          budgetPath: './budget.json'
