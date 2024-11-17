@@ -24,7 +24,7 @@ jobs:
 
   lighthouse:
     runs-on: ubuntu-latest
-     environment:
+    environment:
       name: Preview
     steps:
       - uses: actions/checkout@v4
