@@ -24,7 +24,7 @@ jobs:
         run: |
           URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} | grep -o 'https://.*\.vercel\.app')
           echo "Deployed URL: $URL"
-          echo "url=$URL" >> $GITHUB_OUTPUT
+          echo "url=$URL" >> $env:GITHUB_OUTPUT
 
   lighthouse:
     needs: deploy
