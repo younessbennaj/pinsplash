@@ -9,6 +9,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    outputs:
+      url: ${{ steps.deploy_step.outputs.url }}
     environment:
       name: Preview
     steps:
@@ -24,7 +26,7 @@ jobs:
         run: |
           URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} | grep -o 'https://.*\.vercel\.app')
           echo "Deployed URL: $URL"
-          echo "url=$URL" >> $env:GITHUB_OUTPUT
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
 
   lighthouse:
     needs: deploy
