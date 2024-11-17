@@ -37,6 +37,5 @@ jobs:
         uses: treosh/lighthouse-ci-action@v12
         env:
           URL: ${{needs.deploy.outputs.deployed_url}}
-        run: echo "$URL"
         with:
           urls: ${{needs.deploy.outputs.deployed_url}}
