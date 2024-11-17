@@ -39,3 +39,5 @@ jobs:
           URL: ${{needs.deploy.outputs.deployed_url}}
         with:
           urls: ${{needs.deploy.outputs.deployed_url}}
+          uploadArtifacts: true
+          temporaryPublicStorage: true
