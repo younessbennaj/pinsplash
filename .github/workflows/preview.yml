@@ -32,6 +32,11 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - env:
+      - uses: actions/checkout@v4
+      - name: Audit URLs using Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        env:
           URL: ${{needs.deploy.outputs.deployed_url}}
         run: echo "$URL"
+        with:
+          urls: ${{needs.deploy.outputs.deployed_url}}
