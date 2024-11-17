@@ -10,9 +10,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.step1.outputs.test }}
-      output2: ${{ steps.step2.outputs.test }}
-      url: ${{ steps.deploy_step.outputs.url}}
+      deployed_url: ${{ steps.deploy_step.outputs.deployed_url}}
     environment:
       name: Preview
     steps:
@@ -28,21 +26,12 @@ jobs:
         run: |
           URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} | grep -o 'https://.*\.vercel\.app')
           echo "Deployed URL: $URL"
-          echo "url=$URL" >> "$GITHUB_OUTPUT"
-      - id: step1
-        run: echo "test=hello" >> "$GITHUB_OUTPUT"
-      - id: step2
-        run: echo "test=world" >> "$GITHUB_OUTPUT"
+          echo "deployed_url=$URL" >> "$GITHUB_OUTPUT"
 
   lighthouse:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
       - env:
-          OUTPUT1: ${{needs.deploy.outputs.output1}}
-          OUTPUT2: ${{needs.deploy.outputs.output2}}
-          URL: ${{needs.deploy.outputs.url}}
-        run: echo "$URL hoho"
-    # steps:
-    #   - name: Display Deployment URL
-    #     run: echo "${{ steps.deploy_step.outputs.url }}"
+          URL: ${{needs.deploy.outputs.deployed_url}}
+        run: echo "$URL"
