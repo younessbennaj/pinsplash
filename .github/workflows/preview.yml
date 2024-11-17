@@ -28,8 +28,6 @@ jobs:
   lighthouse:
     needs: deploy
     runs-on: ubuntu-latest
-    environment:
-      name: Preview
     steps:
       - name: Display Deployment URL
         run: echo "${{ env.url }}"
