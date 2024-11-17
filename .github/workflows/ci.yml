@@ -27,3 +27,6 @@ jobs:
 
       - name: Build the project
         run: yarn build
+
+      - name: Run Bundlesize
+        run: yarn bundlesize
