@@ -28,19 +28,5 @@ jobs:
     environment:
       name: Preview
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-      - name: Wait for Vercel Preview URL with App Name
-        id: vercel_preview_url_by_name
-        uses: zentered/vercel-preview-url@v1.4.0
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          GITHUB_REF: 'main'
-          GITHUB_REPOSITORY: 'younessbennaj/pinsplash'
-        with:
-          vercel_app: 'vercel-preview-action-test'
-      - name: Get URL
-        run: echo "https://${{
-          steps.vercel_preview_url_by_name.outputs.preview_url}}"
+      - name: Get output
+        run: echo steps.deploy.outputs
