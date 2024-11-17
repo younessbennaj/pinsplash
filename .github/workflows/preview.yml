@@ -20,14 +20,15 @@ jobs:
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
+        id: deploy_step
         run: |
           URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} | grep -o 'https://.*\.vercel\.app')
           echo "Deployed URL: $URL"
-          echo "url=$URL" >> $GITHUB_ENV
+          echo "url=$URL" >> $GITHUB_OUTPUT
 
   lighthouse:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
       - name: Display Deployment URL
-        run: echo "${{ env.url }}"
+        run: echo "${{ steps.deploy_step.outputs.url }}"
