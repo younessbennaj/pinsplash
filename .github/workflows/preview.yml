@@ -32,4 +32,4 @@ jobs:
       name: Preview
     steps:
       - name: Display Deployment URL
-        run: echo "Deployment URL: ${{ steps.deploy.outputs.url }}"
+        run: echo "${{ steps.deploy.outputs.url }}"
