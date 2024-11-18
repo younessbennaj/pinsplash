@@ -58,8 +58,6 @@ jobs:
                 | Category | Score |
                 | -------- | ------- |
                 | Performance | *100* |
-
-                <span style="color:green">*100*</span>
-
+                
                 Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`
             })
