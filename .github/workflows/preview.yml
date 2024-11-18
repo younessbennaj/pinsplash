@@ -31,51 +31,21 @@ jobs:
   lighthouse:
     needs: deploy
     runs-on: ubuntu-latest
+    env:
+      URL: ${{needs.deploy.outputs.deployed_url}}
     steps:
       - uses: actions/checkout@v4
       - name: Audit URLs using Lighthouse
         uses: treosh/lighthouse-ci-action@v12
-        env:
-          URL: ${{needs.deploy.outputs.deployed_url}}
         with:
           urls: ${{needs.deploy.outputs.deployed_url}}
           uploadArtifacts: true
           temporaryPublicStorage: true
           budgetPath: './budget.json'
-      - name: Format lighthouse score
-        id: format_lighthouse_score
-        uses: actions/github-script@v3
+      - uses: marocchino/sticky-pull-request-comment@v2
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
-            const links = ${{ steps.lighthouse_audit.outputs.links }}
-
-            const formatResult = (res) => Math.round((res * 100))
-            Object.keys(result).forEach(key => result[key] = formatResult(result[key]))
-
-            const score = res => res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴'
-
-            const comment = [
-                `⚡️ [Lighthouse report](${Object.values(links)[0]}) for the changes in this PR:`,
-                '| Category | Score |',
-                '| --- | --- |',
-                `| ${score(result.performance)} Performance | ${result.performance} |`,
-                `| ${score(result.accessibility)} Accessibility | ${result.accessibility} |`,
-                `| ${score(result['best-practices'])} Best practices | ${result['best-practices']} |`,
-                `| ${score(result.seo)} SEO | ${result.seo} |`,
-                `| ${score(result.pwa)} PWA | ${result.pwa} |`,
-                ' ',
-                `*Lighthouse ran on [${Object.keys(links)[0]}](${Object.keys(links)[0]})*`
-            ].join('\n')
-
-             core.setOutput("comment", comment);
-      - name: Add comment to PR
-        id: comment_to_pr
-        uses: marocchino/sticky-pull-request-comment@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          number: ${{ github.event.issue.number }}
-          header: lighthouse
           message: |
-            ${{ steps.format_lighthouse_score.outputs.comment }}
+            ## Ceci est un test
+            ```
+            ${{needs.deploy.outputs.deployed_url}}
+            ```
