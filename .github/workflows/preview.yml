@@ -6,6 +6,9 @@ on:
   push:
     branches-ignore:
       - main
+permissions:
+  issues: write
+  pull-requests: write
 jobs:
   deploy:
     runs-on: ubuntu-latest
