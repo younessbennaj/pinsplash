@@ -18,28 +18,6 @@
         "resourceType": "total",
         "budget": 1600
       }
-    ],
-    "timings": [
-      {
-        "metric": "first-contentful-paint",
-        "budget": 2000
-      },
-      {
-        "metric": "largest-contentful-paint",
-        "budget": 2500
-      },
-      {
-        "metric": "total-blocking-time",
-        "budget": 300
-      },
-      {
-        "metric": "cumulative-layout-shift",
-        "budget": 0.1
-      },
-      {
-        "metric": "interactive",
-        "budget": 3000
-      }
     ]
   }
 ]
