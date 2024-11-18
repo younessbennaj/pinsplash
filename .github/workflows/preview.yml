@@ -53,9 +53,9 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `**⚡️ [Lighthouse report](${https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1731920511795-48592.report.html})** for the changes in this PR:
+              body: `**⚡️ [Lighthouse report](https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1731920511795-48592.report.html)** for the changes in this PR:
                 ${test}
-                
+
                 | Category | Score |
                 | Performance | <span style="color:green">*100*</span> |
 
