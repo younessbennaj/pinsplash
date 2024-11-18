@@ -2,10 +2,7 @@ name: GitHub Actions Vercel Preview Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-on:
-  push:
-    branches-ignore:
-      - main
+on: [pull_request]
 permissions:
   issues: write
   pull-requests: write
@@ -47,11 +44,5 @@ jobs:
           budgetPath: './budget.json'
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          number: ${{ github.event.issue.number }}
-          header: lighthouse
           message: |
-            ## Ceci est un test
-            ```
-            ${{needs.deploy.outputs.deployed_url}}
-            ```
+            Un test
