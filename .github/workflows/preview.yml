@@ -48,11 +48,14 @@ jobs:
           script: |
             console.log(${{ steps.lighthouse_audit.outputs.manifest }}[0].summary);
             const summary = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary;
+            const links = ${{ steps.lighthouse_audit.outputs.links }}
+            console.log(links)
             const test = "Hello !!!";
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `**Welcome**, new contributor!
+              body: `⚡️ [Lighthouse report](${Object.values(links)[0]}) for the changes in this PR:
+              Performance: ${result.performance}
               Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`
             })
