@@ -1,50 +1,39 @@
-# React + TypeScript + Vite
+# **Pinsplash**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Pinsplash** is a responsive and high-performance web application designed to explore and interact with images using the Unsplash API. This project showcases modern front-end development techniques and workflows while providing a seamless and visually appealing user experience.
 
-Currently, two official plugins are available:
+## **Key Objectives**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 1. **Image Exploration**
+- Display a gallery of images in a fluid masonry layout.
+- Enable infinite scrolling or dynamic loading for discovering more content.
 
-## Expanding the ESLint configuration
+### 2. **Advanced Search**
+- Provide a search bar to find images based on keywords.
+- Display real-time search results for a smooth user experience.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 3. **Photo Details**
+- Offer a dedicated page for each photo, including:
+  - View counts.
+  - Download counts.
+  - Category tags.
+  - Download options with multiple resolutions.
 
-- Configure the top-level `parserOptions` property like this:
+### 4. **Performance and UX Optimization**
+- Ensure a fast and responsive experience by:
+  - Monitoring bundle sizes.
+  - Enforcing performance budgets (via Lighthouse).
+- Deliver a smooth navigation experience across all devices.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 5. **Deployment and CI/CD**
+- Implement a robust CI/CD pipeline to maintain code quality and performance across every deployment.
+- Manage preview and production environments seamlessly using Vercel.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## **Core Technologies**
+- **React** and **TypeScript** for building the user interface.
+- **TailwindCSS** for rapid and modern styling.
+- **Vite** for fast builds and hot reloading.
+- **Unsplash API** to provide rich image content.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## **Purpose**
+Pinsplash is not just a tool for exploring images—it serves as a demonstration of advanced technical expertise in front-end development. It highlights the ability to build modern, performant, and well-structured applications, making it a valuable addition to any portfolio. 🚀
