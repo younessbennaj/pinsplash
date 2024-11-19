@@ -51,7 +51,7 @@ jobs:
             const links = ${{ steps.lighthouse_audit.outputs.links }}
             console.log(links)
             const test = "Hello !!!";
-            const getScoreColor = res => res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴'
+            const getScoreColor = res => res >= 0.9 ? '🟢' : res >= 0.5 ? '🟠' : '🔴'
             const getScorePercentage = res => res * 100 + '%'
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
@@ -59,5 +59,8 @@ jobs:
               repo: context.repo.repo,
               body: `⚡️ [Lighthouse report](${Object.values(links)[0]}) for the changes in this PR:
               Performance: ${getScoreColor(summary.performance)} ${getScorePercentage(summary.performance)}
+              Accessibility: ${getScoreColor(summary.accessibility)} ${getScorePercentage(summary.accessibility)}
+              Best practices: ${getScoreColor(summary['best-practices'])} ${getScorePercentage(summary['best-practices'])}
+              SEO: ${getScoreColor(summary.seo)} ${getScorePercentage(summary.seo)}
               Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`
             })
