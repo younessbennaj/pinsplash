@@ -58,9 +58,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `⚡️ [Lighthouse report](${Object.values(links)[0]}) for the changes in this PR:
-              Performance: ${getScoreColor(summary.performance)} ${getScorePercentage(summary.performance)}
-              Accessibility: ${getScoreColor(summary.accessibility)} ${getScorePercentage(summary.accessibility)}
-              Best practices: ${getScoreColor(summary['best-practices'])} ${getScorePercentage(summary['best-practices'])}
-              SEO: ${getScoreColor(summary.seo)} ${getScorePercentage(summary.seo)}
-              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`
+              **Performance**: ${getScoreColor(summary.performance)} ${getScorePercentage(summary.performance)}
+              **Accessibility**: ${getScoreColor(summary.accessibility)} ${getScorePercentage(summary.accessibility)}
+              **Best practices**: ${getScoreColor(summary['best-practices'])} ${getScorePercentage(summary['best-practices'])}
+              **SEO**: ${getScoreColor(summary.seo)} ${getScorePercentage(summary.seo)}`
             })
