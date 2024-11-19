@@ -2,7 +2,7 @@ function App() {
   return (
     <div>
       <h1 className="text-xl text-red-600 font-semibold">Hello World!</h1>
-      <p>hello</p>
+      <p>New Titlte</p>
       <ul>
         <li>Foo</li>
         <li>Bar</li>
