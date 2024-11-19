@@ -56,6 +56,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `⚡️ [Lighthouse report](${Object.values(links)[0]}) for the changes in this PR:
-              Performance: ${result.performance}
+              Performance: ${summary.performance}
               Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`
             })
