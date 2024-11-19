@@ -46,11 +46,8 @@ jobs:
       - uses: actions/github-script@v7
         with:
           script: |
-            console.log(${{ steps.lighthouse_audit.outputs.manifest }}[0].summary);
             const summary = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary;
             const links = ${{ steps.lighthouse_audit.outputs.links }}
-            console.log(links)
-            const test = "Hello !!!";
             const getScoreColor = res => res >= 0.9 ? '🟢' : res >= 0.5 ? '🟠' : '🔴'
             const getScorePercentage = res => res * 100 + '%'
             await github.rest.issues.createComment({
@@ -65,3 +62,17 @@ jobs:
               | **Best practices** | ${getScoreColor(summary['best-practices'])} ${getScorePercentage(summary['best-practices'])} |
               | **SEO** | ${getScoreColor(summary.seo)} ${getScorePercentage(summary.seo)} |`
             })
+
+  bundlesize:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: yarn install
+      - name: Build Project
+        run: yarn build
+      - name: Check Bundle Size
+        run: |
+          yarn add bundlesize --dev
+          npx bundlesize
