@@ -63,5 +63,5 @@ jobs:
               | **Performance** | ${getScoreColor(summary.performance)} ${getScorePercentage(summary.performance)} |
               | **Accessibility** | ${getScoreColor(summary.accessibility)} ${getScorePercentage(summary.accessibility)} |
               | **Best practices** | ${getScoreColor(summary['best-practices'])} ${getScorePercentage(summary['best-practices'])} |
-              | **SEO** | ${getScoreColor(summary.seo)} ${getScorePercentage(summary.seo)}` |
+              | **SEO** | ${getScoreColor(summary.seo)} ${getScorePercentage(summary.seo)} |`
             })
