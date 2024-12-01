@@ -38,9 +38,37 @@ function App() {
                   height={photo.height}
                   width={photo.width}
                   blurhash={photo.blur_hash}
-                  imageUrl={photo.urls.small}
+                  imageUrl={photo.urls.regular}
                   alt={photo.alt_description || photo.description || ''}
+                  srcSet={`
+                    ${photo.urls.thumb} 200w,
+                    ${photo.urls.small} 400w,
+                    ${photo.urls.regular} 1080w,
+                    ${photo.urls.full} ${photo.width}w
+                  `}
+                  sizes="(max-width: 600px) calc((100vw - 48px) / 2), (max-width: 1024px) calc((100vw - 64px) / 3), calc((100vw - 64px) / 3)"
                 />
+                // <img
+                //   src={photo.urls.thumb}
+                //   srcSet={`
+                //     ${photo.urls.thumb} 200w,
+                //     ${photo.urls.small} 400w,
+                //     ${photo.urls.regular} 1080w,
+                //     ${photo.urls.full} ${photo.width}w
+                //   `}
+                //   sizes="(max-width: 600px) calc((100vw - 48px) / 2), (max-width: 1024px) calc((100vw - 64px) / 3), calc((100vw - 64px) / 3)"
+                //   alt={photo.alt_description || 'Image sans description'}
+                //   style={{
+                //     width: '100%',
+                //     height: 'auto',
+                //     borderRadius: '8px',
+                //     display: 'block',
+                //   }}
+                //   loading="lazy"
+                //   onLoad={() => {
+                //     console.log('Image loaded');
+                //   }}
+                // />
               );
             })}
           </div>

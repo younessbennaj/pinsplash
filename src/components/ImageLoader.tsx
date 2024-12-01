@@ -7,12 +7,16 @@ function ImageLoader({
   imageUrl,
   width,
   height,
+  srcSet,
+  sizes,
 }: {
   alt: string;
   blurhash: string;
   imageUrl: string;
   width: number;
   height: number;
+  srcSet: string;
+  sizes: string;
 }) {
   const aspectRatio = width / height;
   const [loading, setLoading] = useState(true);
@@ -24,7 +28,9 @@ function ImageLoader({
     };
 
     image.src = imageUrl;
-  }, [imageUrl]);
+    image.srcset = srcSet;
+    image.sizes = sizes;
+  }, [imageUrl, sizes, srcSet]);
   return (
     <div
       style={{
@@ -47,6 +53,8 @@ function ImageLoader({
         <img
           src={imageUrl}
           alt={alt || 'Image sans description'}
+          srcSet={srcSet}
+          sizes={sizes}
           style={{
             width: '100%',
             height: 'auto',
