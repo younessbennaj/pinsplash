@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import photos from './mocks/photos.json';
 import { UnsplashImage } from './types';
 import ImageLoader from './components/ImageLoader.tsx';
+import { useMediaQuery } from '@uidotdev/usehooks';
 
 function fetchPhotos() {
   return new Promise((resolve) => {
@@ -12,6 +13,12 @@ function fetchPhotos() {
 function App() {
   const [photoList, setPhotoList] = useState<UnsplashImage[]>([]);
 
+  // Détection des tailles d'écran
+  const isMobileOrTablet = useMediaQuery('(max-width: 1024px)');
+
+  // Nombre de colonnes dynamiques
+  const numColumns = isMobileOrTablet ? 2 : 3;
+
   useEffect(() => {
     fetchPhotos().then((data) => {
       const photos = data;
@@ -19,10 +26,13 @@ function App() {
     });
   }, []);
 
-  // Split images into three columns
-  const columns = [[], [], []] as UnsplashImage[][];
+  // Split images into columns dynamiquement
+  const columns = Array.from(
+    { length: numColumns },
+    () => [],
+  ) as UnsplashImage[][];
   photoList.forEach((photo, index) => {
-    columns[index % 3].push(photo);
+    columns[index % numColumns].push(photo);
   });
 
   return (
@@ -38,37 +48,16 @@ function App() {
                   height={photo.height}
                   width={photo.width}
                   blurhash={photo.blur_hash}
-                  imageUrl={photo.urls.regular}
+                  imageUrl={photo.urls.thumb}
                   alt={photo.alt_description || photo.description || ''}
                   srcSet={`
-                    ${photo.urls.thumb} 200w,
-                    ${photo.urls.small} 400w,
-                    ${photo.urls.regular} 1080w,
-                    ${photo.urls.full} ${photo.width}w
-                  `}
-                  sizes="(max-width: 600px) calc((100vw - 48px) / 2), (max-width: 1024px) calc((100vw - 64px) / 3), calc((100vw - 64px) / 3)"
+                  ${photo.urls.thumb} 200w,
+                  ${photo.urls.small} 400w,
+                  ${photo.urls.regular} 1080w,
+                  ${photo.urls.full} ${photo.width}w
+                `}
+                  sizes="(max-width: 600px) 200px, (max-width: 1024px) calc((100vw - 48px) / 2), calc((100vw - 64px) / 3)"
                 />
-                // <img
-                //   src={photo.urls.thumb}
-                //   srcSet={`
-                //     ${photo.urls.thumb} 200w,
-                //     ${photo.urls.small} 400w,
-                //     ${photo.urls.regular} 1080w,
-                //     ${photo.urls.full} ${photo.width}w
-                //   `}
-                //   sizes="(max-width: 600px) calc((100vw - 48px) / 2), (max-width: 1024px) calc((100vw - 64px) / 3), calc((100vw - 64px) / 3)"
-                //   alt={photo.alt_description || 'Image sans description'}
-                //   style={{
-                //     width: '100%',
-                //     height: 'auto',
-                //     borderRadius: '8px',
-                //     display: 'block',
-                //   }}
-                //   loading="lazy"
-                //   onLoad={() => {
-                //     console.log('Image loaded');
-                //   }}
-                // />
               );
             })}
           </div>
