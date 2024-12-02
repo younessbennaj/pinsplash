@@ -48,13 +48,13 @@ function App() {
                   height={photo.height}
                   width={photo.width}
                   blurhash={photo.blur_hash}
-                  imageUrl={`${photo.urls.thumb}&auto=format`}
+                  imageUrl={photo.urls.thumb}
                   alt={photo.alt_description || photo.description || ''}
                   srcSet={`
-                  ${photo.urls.thumb}&auto=format 200w,
-                  ${photo.urls.small}&auto=format 400w,
-                  ${photo.urls.regular}&auto=format 1080w,
-                  ${photo.urls.full}&auto=format ${photo.width}w
+                  ${photo.urls.thumb} 200w,
+                  ${photo.urls.small} 400w,
+                  ${photo.urls.regular} 1080w,
+                  ${photo.urls.full} ${photo.width}w
                 `}
                   sizes="(max-width: 600px) 200px, (max-width: 1024px) calc((100vw - 48px) / 2), calc((100vw - 64px) / 3)"
                 />
