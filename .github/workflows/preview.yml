@@ -57,7 +57,7 @@ jobs:
           urls: ${{needs.deploy.outputs.deployed_url}}
           uploadArtifacts: true
           temporaryPublicStorage: true
-          budgetPath: './budget.json'
+          # budgetPath: './budget.json'
       - uses: actions/github-script@v7
         with:
           script: |
