@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import photos from './mocks/photos.json';
 import { UnsplashImage } from './types';
-import ImageLoader from './components/ImageLoader.tsx';
+// import ImageLoader from './components/ImageLoader.tsx';
 import { useMediaQuery } from '@uidotdev/usehooks';
+import MansoryLayout from './components/MasonryLayout/MasonryLayout.tsx';
 
 function fetchPhotos() {
   return new Promise((resolve) => {
@@ -12,6 +13,8 @@ function fetchPhotos() {
 
 function App() {
   const [photoList, setPhotoList] = useState<UnsplashImage[]>([]);
+
+  console.log(photoList);
 
   // Détection des tailles d'écran
   const isMobileOrTablet = useMediaQuery('(max-width: 1024px)');
@@ -38,7 +41,18 @@ function App() {
   return (
     <div>
       <h1>Pinsplash</h1>
-      <div style={{ display: 'flex', gap: '16px' }}>
+      <MansoryLayout<UnsplashImage>
+        items={photoList}
+        renderItems={(item) => {
+          return (
+            <img
+              src={item.urls.thumb}
+              alt={item.alt_description || item.description || ''}
+            />
+          );
+        }}
+      />
+      {/* <div style={{ display: 'flex', gap: '16px' }}>
         {columns.map((column, colIndex) => (
           <div key={colIndex} style={{ flex: 1 }}>
             {column.map((photo) => {
@@ -62,7 +76,7 @@ function App() {
             })}
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
