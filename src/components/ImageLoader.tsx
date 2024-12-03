@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Blurhash } from 'react-blurhash';
 
 function ImageLoader({
+  aspectRatio,
   alt,
   blurhash,
   imageUrl,
@@ -10,6 +11,7 @@ function ImageLoader({
   srcSet,
   sizes,
 }: {
+  aspectRatio?: string;
   alt: string;
   blurhash: string;
   imageUrl: string;
@@ -18,7 +20,6 @@ function ImageLoader({
   srcSet: string;
   sizes: string;
 }) {
-  const aspectRatio = width / height;
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -36,8 +37,9 @@ function ImageLoader({
   return (
     <div
       style={{
+        backgroundColor: '#948cf988',
         position: 'relative',
-        aspectRatio: `${aspectRatio}`,
+        aspectRatio: `${aspectRatio ? aspectRatio : width / height}`,
         marginBottom: '16px',
         borderRadius: '8px',
         overflow: 'hidden',
@@ -72,8 +74,10 @@ function ImageLoader({
         srcSet={srcSet}
         sizes={sizes}
         style={{
+          objectFit: 'cover',
+          objectPosition: 'center',
           width: '100%',
-          height: 'auto',
+          height: '100%',
           borderRadius: '8px',
           display: 'block',
           opacity: loaded ? 1 : 0,
