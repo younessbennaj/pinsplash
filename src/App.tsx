@@ -204,14 +204,46 @@
 import { useEffect, useRef, useState } from 'react';
 import { throttle } from 'lodash';
 import { useMediaQuery } from '@uidotdev/usehooks';
+import { UnsplashImage } from './types';
+import photos from './mocks/photos.json';
+import ImageLoader from './components/ImageLoader';
+
+function categorizeByRatio(width: number, height: number) {
+  const ratio = width / height;
+  if (ratio < 0.8) {
+    return 9 / 16; // Retourne le ratio numérique pour '9 / 16'
+  } else if (ratio > 1.3) {
+    return 4 / 3; // Retourne le ratio numérique pour '4 / 3'
+  } else {
+    return 1 / 1; // Retourne le ratio numérique pour '1 / 1'
+  }
+}
+
+function fetchPhotos() {
+  return new Promise((resolve) => {
+    resolve(photos);
+  });
+}
 
 function App() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
+  const [photoList, setPhotoList] = useState<UnsplashImage[]>([]);
 
   const isMobileOrTablet = useMediaQuery('(max-width: 1024px)');
 
   const numColumns = isMobileOrTablet ? 2 : 3;
+
+  //   // const [photoList, setPhotoList] = useState<UnsplashImage[]>([]);
+  //   const containerRef = useRef<HTMLDivElement | null>(null);
+  //   const [containerWidth, setContainerWidth] = useState<number>(0);
+
+  useEffect(() => {
+    fetchPhotos().then((data) => {
+      const photos = data;
+      setPhotoList(photos as UnsplashImage[]);
+    });
+  }, []);
 
   useEffect(() => {
     // Fonction pour mettre à jour la largeur du container
@@ -222,7 +254,7 @@ function App() {
     };
 
     // Utiliser throttle pour limiter la fréquence d'exécution
-    const throttledUpdateContainerWidth = throttle(updateContainerWidth, 1000);
+    const throttledUpdateContainerWidth = throttle(updateContainerWidth, 500);
 
     // Ajouter un écouteur d'événement pour resize
     window.addEventListener('resize', throttledUpdateContainerWidth);
@@ -259,138 +291,40 @@ function App() {
   return (
     <div>
       <div className="container" ref={containerRef}>
-        <div
-          tabIndex={1}
-          className="item"
-          style={{
-            ...calculatePosition(0, 250), // Index et hauteur
-            height: '250px',
-            width: columnWidth,
-          }}
-        >
-          1
-        </div>
-        <div
-          tabIndex={1}
-          className="item"
-          style={{
-            ...calculatePosition(1, 300),
-            height: '300px',
-            width: columnWidth,
-          }}
-        >
-          2
-        </div>
-        <div
-          tabIndex={1}
-          className="item"
-          style={{
-            ...calculatePosition(2, 110),
-            height: '110px',
-            width: columnWidth,
-          }}
-        >
-          3
-        </div>
-        <div
-          tabIndex={1}
-          className="item"
-          style={{
-            ...calculatePosition(3, 200),
-            height: '200px',
-            width: columnWidth,
-          }}
-        >
-          4
-        </div>
-        <div
-          tabIndex={1}
-          className="item"
-          style={{
-            ...calculatePosition(4, 70),
-            height: '70px',
-            width: columnWidth,
-          }}
-        >
-          5
-        </div>
-        <div
-          tabIndex={1}
-          className="item"
-          style={{
-            ...calculatePosition(5, 330),
-            height: '330px',
-            width: columnWidth,
-          }}
-        >
-          6
-        </div>
-        <div
-          tabIndex={1}
-          className="item"
-          style={{
-            ...calculatePosition(6, 70),
-            height: '70px',
-            width: columnWidth,
-          }}
-        >
-          7
-        </div>
-        <div
-          tabIndex={1}
-          className="item"
-          style={{
-            ...calculatePosition(7, 130),
-            height: '130px',
-            width: columnWidth,
-          }}
-        >
-          8
-        </div>
-        <div
-          tabIndex={1}
-          className="item"
-          style={{
-            ...calculatePosition(8, 70),
-            height: '70px',
-            width: columnWidth,
-          }}
-        >
-          9
-        </div>
-        <div
-          tabIndex={1}
-          className="item"
-          style={{
-            ...calculatePosition(9, 130),
-            height: '130px',
-            width: columnWidth,
-          }}
-        >
-          10
-        </div>
-        <div
-          tabIndex={1}
-          className="item"
-          style={{
-            ...calculatePosition(10, 160),
-            height: '160px',
-            width: columnWidth,
-          }}
-        >
-          11
-        </div>
-        <div
-          tabIndex={1}
-          className="item"
-          style={{
-            ...calculatePosition(11, 160),
-            height: '160px',
-            width: columnWidth,
-          }}
-        >
-          12
-        </div>
+        {photoList.map((photo, index) => {
+          const height =
+            columnWidth / categorizeByRatio(photo.width, photo.height);
+          const position = calculatePosition(index, height);
+          return (
+            <div
+              key={photo.id}
+              tabIndex={1}
+              className="item"
+              style={{
+                ...position,
+                height,
+                width: columnWidth,
+              }}
+            >
+              <ImageLoader
+                aspectRatio={categorizeByRatio(photo.width, photo.height)}
+                key={photo.id}
+                height={photo.height}
+                width={photo.width}
+                blurhash={photo.blur_hash}
+                imageUrl={`${photo.urls.thumb}&auto=format`}
+                alt={photo.alt_description || photo.description || ''}
+                srcSet={`
+                    ${photo.urls.thumb}&auto=format 200w,
+                    ${photo.urls.small}&auto=format 400w,
+                    ${photo.urls.regular}&auto=format 1080w,
+                    ${photo.urls.full}&auto=format ${photo.width}w
+                  `}
+                sizes="(max-width: 600px) 200px, (max-width: 1024px) calc((100vw - 48px) / 2), calc((100vw - 64px) / 3)"
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
