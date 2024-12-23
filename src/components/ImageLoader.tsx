@@ -11,7 +11,7 @@ function ImageLoader({
   srcSet,
   sizes,
 }: {
-  aspectRatio?: string;
+  aspectRatio?: number;
   alt: string;
   blurhash: string;
   imageUrl: string;
@@ -40,7 +40,6 @@ function ImageLoader({
         backgroundColor: '#948cf988',
         position: 'relative',
         aspectRatio: `${aspectRatio ? aspectRatio : width / height}`,
-        marginBottom: '16px',
         borderRadius: '8px',
         overflow: 'hidden',
       }}

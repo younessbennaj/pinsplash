@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import photos from '../../mocks/photos.json';
 
-import MasonryLayout from './MasonryLayout';
+import MansoryLayout from './MansoryLayout';
 import { UnsplashImage } from '../../types';
 
-const meta: Meta<typeof MasonryLayout> = {
+const meta: Meta<typeof MansoryLayout> = {
   component: () => {
     const photoList = photos as unknown as UnsplashImage[];
-    return <MasonryLayout items={photoList as UnsplashImage[]} />;
+    return <MansoryLayout items={photoList as UnsplashImage[]} />;
   },
 };
 

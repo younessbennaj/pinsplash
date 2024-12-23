@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import photos from './mocks/photos.json';
 import { UnsplashImage } from './types';
-import MansoryLayout from './components/MasonryLayout/MasonryLayout.tsx';
+import photos from './mocks/photos.json';
+import MansoryLayoutWithAbsolute from './components/MansoryLayout/MansoryLayout';
 
 function fetchPhotos() {
   return new Promise((resolve) => {
@@ -22,7 +22,7 @@ function App() {
   return (
     <div>
       <h1>Pinsplash</h1>
-      <MansoryLayout items={photoList} />
+      <MansoryLayoutWithAbsolute items={photoList} />
     </div>
   );
 }
