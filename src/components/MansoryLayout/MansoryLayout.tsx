@@ -7,17 +7,18 @@ import ImageLoader from '../ImageLoader';
 function categorizeByRatio(width: number, height: number) {
   const ratio = width / height;
   if (ratio < 0.8) {
-    return 9 / 16;
+    return 9 / 16; // Return numeric ratio for '9 / 16'
   } else if (ratio > 1.3) {
-    return 4 / 3;
+    return 4 / 3; // Return numeric ratio for '4 / 3'
   } else {
-    return 1 / 1;
+    return 1 / 1; // Return numeric ratio for '1 / 1'
   }
 }
 
 function MansoryLayout({ items }: { items: UnsplashImage[] }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
+  const [maxHeight, setMaxHeight] = useState<number>(0); // Track max height
 
   const isMobileOrTablet = useMediaQuery('(max-width: 1024px)');
   const numColumns = isMobileOrTablet ? 2 : 3;
@@ -72,13 +73,31 @@ function MansoryLayout({ items }: { items: UnsplashImage[] }) {
       throttledUpdateContainerWidth.cancel();
     };
   }, []);
+
+  useEffect(() => {
+    // Update the maxHeight whenever items or containerWidth changes
+    const heights = Array(columns).fill(0);
+
+    items.forEach((item) => {
+      const height = columnWidth / categorizeByRatio(item.width, item.height);
+      const shortestColumnIndex = heights.indexOf(Math.min(...heights));
+      heights[shortestColumnIndex] += height + gap;
+    });
+
+    setMaxHeight(Math.max(...heights));
+  }, [items, columnWidth, gap, columns]);
+
   return (
-    <div className="relative" ref={containerRef}>
+    <div
+      className="relative"
+      ref={containerRef}
+      style={{ height: maxHeight }} // Apply the calculated max height
+    >
       {items.map((item) => {
         const position = calculatePosition(item.width, item.height);
         return (
           <div
-            className="absolute"
+            className="absolute item"
             key={item.id}
             tabIndex={1}
             style={{

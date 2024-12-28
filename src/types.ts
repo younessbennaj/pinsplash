@@ -2,24 +2,17 @@ export type UnsplashImage = {
   id: string;
   slug: string;
   alternative_slugs: {
-    en: string;
-    es: string;
-    ja: string;
-    fr: string;
-    it: string;
-    ko: string;
-    de: string;
-    pt: string;
+    [languageCode: string]: string;
   };
-  created_at: string; // ISO date string
-  updated_at: string; // ISO date string
-  promoted_at: string | null; // ISO date string or null
+  created_at: string;
+  updated_at: string;
+  promoted_at?: string | null; // Inclure null comme valeur possible
   width: number;
   height: number;
   color: string;
   blur_hash: string;
-  description: string | null;
-  alt_description: string | null;
+  description?: string | null;
+  alt_description?: string | null;
   breadcrumbs: string[];
   urls: {
     raw: string;
@@ -37,23 +30,30 @@ export type UnsplashImage = {
   };
   likes: number;
   liked_by_user: boolean;
-  current_user_collections: string[]; // assuming array of strings for collection IDs
-  sponsorship: null | Record<string, unknown>; // null or a sponsorship object (unspecified here)
-  topic_submissions: Record<string, { status: string; approved_on?: string }>; // key-value pairs of topic details
-  asset_type: 'photo' | string; // assuming "photo" is one type, extendable
+  current_user_collections: unknown[];
+  sponsorship?: string | null;
+  topic_submissions: {
+    [topic: string]:
+      | {
+          status: string;
+          approved_on?: string;
+        }
+      | undefined;
+  };
+  asset_type: string;
   premium: boolean;
   plus: boolean;
   user: {
     id: string;
-    updated_at: string; // ISO date string
+    updated_at: string;
     username: string;
     name: string;
     first_name: string;
-    last_name: string | null;
-    twitter_username: string | null;
-    portfolio_url: string | null;
-    bio: string | null;
-    location: string | null;
+    last_name?: string | null;
+    twitter_username?: string | null;
+    portfolio_url?: string | null;
+    bio?: string | null;
+    location?: string | null;
     links: {
       self: string;
       html: string;
@@ -68,7 +68,7 @@ export type UnsplashImage = {
       medium: string;
       large: string;
     };
-    instagram_username: string | null;
+    instagram_username?: string | null;
     total_collections: number;
     total_likes: number;
     total_photos: number;
@@ -78,10 +78,10 @@ export type UnsplashImage = {
     accepted_tos: boolean;
     for_hire: boolean;
     social: {
-      instagram_username: string | null;
-      portfolio_url: string | null;
-      twitter_username: string | null;
-      paypal_email: string | null;
+      instagram_username?: string | null;
+      portfolio_url?: string | null;
+      twitter_username?: string | null;
+      paypal_email?: string | null;
     };
   };
 };
