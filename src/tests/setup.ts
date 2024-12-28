@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/vitest';
 import '@testing-library/jest-dom';
-import { afterEach, vi } from 'vitest';
+import { afterEach, vi, vitest } from 'vitest';
 import { cleanup } from '@testing-library/react';
 
 // runs a clean after each test case (e.g. clearing jsdom)
@@ -20,4 +20,23 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
+});
+
+// Mock IntersectionObserver
+class IntersectionObserver {
+  observe = vitest.fn();
+  disconnect = vitest.fn();
+  unobserve = vitest.fn();
+}
+
+Object.defineProperty(window, 'IntersectionObserver', {
+  writable: true,
+  configurable: true,
+  value: IntersectionObserver,
+});
+
+Object.defineProperty(global, 'IntersectionObserver', {
+  writable: true,
+  configurable: true,
+  value: IntersectionObserver,
 });
