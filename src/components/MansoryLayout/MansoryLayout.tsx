@@ -78,7 +78,7 @@ function MansoryLayout({ items }: { items: UnsplashImage[] }) {
         const position = calculatePosition(item.width, item.height);
         return (
           <div
-            className="absolute"
+            className="absolute item"
             key={item.id}
             tabIndex={1}
             style={{

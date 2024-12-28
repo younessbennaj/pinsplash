@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
 import { UnsplashImage } from './types';
 import photos from './mocks/photos.json';
 import MansoryLayoutWithAbsolute from './components/MansoryLayout/MansoryLayout';
+import { useQuery } from '@tanstack/react-query';
 
 function fetchPhotos() {
   return new Promise((resolve) => {
@@ -10,19 +10,19 @@ function fetchPhotos() {
 }
 
 function App() {
-  const [photoList, setPhotoList] = useState<UnsplashImage[]>([]);
-
-  useEffect(() => {
-    fetchPhotos().then((data) => {
-      const photos = data;
-      setPhotoList(photos as UnsplashImage[]);
-    });
-  }, []);
+  const { data: photoList, isLoading } = useQuery({
+    queryKey: ['photos'],
+    queryFn: fetchPhotos as () => Promise<UnsplashImage[]>,
+  });
 
   return (
     <div>
       <h1>Pinsplash</h1>
-      <MansoryLayoutWithAbsolute items={photoList} />
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : photoList ? (
+        <MansoryLayoutWithAbsolute items={photoList} />
+      ) : null}
     </div>
   );
 }
