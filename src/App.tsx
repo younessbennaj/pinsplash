@@ -23,6 +23,7 @@ function App() {
       ) : photoList ? (
         <MansoryLayoutWithAbsolute items={photoList} />
       ) : null}
+      <button onClick={() => console.log('clicked')}>Load More</button>
     </div>
   );
 }
