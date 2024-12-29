@@ -2,7 +2,8 @@ import { useMediaQuery } from '@uidotdev/usehooks';
 import { UnsplashImage } from '../../types';
 import { useEffect, useRef, useState } from 'react';
 import { throttle } from 'lodash';
-import ImageLoader from '../ImageLoader';
+// import ImageLoader from '../ImageLoader';
+import Card from '../Card/Card';
 
 function categorizeByRatio(width: number, height: number) {
   const ratio = width / height;
@@ -105,21 +106,9 @@ function MansoryLayout({ items }: { items: UnsplashImage[] }) {
               width: columnWidth,
             }}
           >
-            <ImageLoader
+            <Card
               aspectRatio={categorizeByRatio(item.width, item.height)}
-              key={item.id}
-              height={item.height}
-              width={item.width}
-              blurhash={item.blur_hash}
-              imageUrl={`${item.urls.thumb}&auto=format`}
-              alt={item.alt_description || item.description || ''}
-              srcSet={`
-                    ${item.urls.thumb}&auto=format 200w,
-                    ${item.urls.small}&auto=format 400w,
-                    ${item.urls.regular}&auto=format 1080w,
-                    ${item.urls.full}&auto=format ${item.width}w
-                  `}
-              sizes="(max-width: 600px) 200px, (max-width: 1024px) calc((100vw - 48px) / 2), calc((100vw - 64px) / 3)"
+              item={item}
             />
           </div>
         );

@@ -1,6 +1,6 @@
 import { UnsplashImage } from './types';
 import photos from './mocks/photos.json';
-import MansoryLayoutWithAbsolute from './components/MansoryLayout/MansoryLayout';
+import MansoryLayout from './components/MansoryLayout/MansoryLayout';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
@@ -54,9 +54,7 @@ function App() {
       ) : status === 'error' ? (
         <span>Error: {error.message}</span>
       ) : data ? (
-        <MansoryLayoutWithAbsolute
-          items={data.pages.flat() as UnsplashImage[]}
-        />
+        <MansoryLayout items={data.pages.flat() as UnsplashImage[]} />
       ) : null}
       <div>
         <button
