@@ -9,7 +9,7 @@ const meta: Meta<typeof Card> = {
     const photoList = photos as unknown as UnsplashImage[];
     return (
       <div className="w-1/3">
-        <Card item={photoList[1] as UnsplashImage} aspectRatio={aspectRatio} />
+        <Card item={photoList[3] as UnsplashImage} aspectRatio={aspectRatio} />
       </div>
     );
   },

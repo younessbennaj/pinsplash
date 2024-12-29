@@ -2,7 +2,6 @@ import { useMediaQuery } from '@uidotdev/usehooks';
 import { UnsplashImage } from '../../types';
 import { useEffect, useRef, useState } from 'react';
 import { throttle } from 'lodash';
-// import ImageLoader from '../ImageLoader';
 import Card from '../Card/Card';
 
 function categorizeByRatio(width: number, height: number) {
@@ -98,9 +97,8 @@ function MansoryLayout({ items }: { items: UnsplashImage[] }) {
         const position = calculatePosition(item.width, item.height);
         return (
           <div
-            className="absolute item"
+            className="absolute"
             key={item.id}
-            tabIndex={1}
             style={{
               ...position,
               width: columnWidth,
