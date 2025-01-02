@@ -1,56 +1,32 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useInView } from 'react-intersection-observer';
 import { UnsplashImage } from '../../types';
-import photos from '../../mocks/photos.json';
-import { useEffect } from 'react';
-import MansoryLayout from '../MansoryLayout/MansoryLayout';
 
-// Mock function to fetch photos
-function fetchPhotos(): Promise<UnsplashImage[]> {
-  const photosWithUpdatedId = photos.map((photo) => {
-    return {
-      ...photo,
-      id: window.crypto.getRandomValues(new Uint32Array(1))[0].toString(16),
-    };
-  });
-  return new Promise((resolve) => {
-    resolve(photosWithUpdatedId);
-  });
+import MansoryLayout from '../MansoryLayout/MansoryLayout';
+import { useImageListing } from './useImageListing';
+
+function LoadingIndicator() {
+  return <p>Loading...</p>;
+}
+
+function ErrorDisplay({ message }: { message: string }) {
+  return <span>Error: {message}</span>;
 }
 
 function ImageListing() {
-  const { ref, inView } = useInView();
-
   const {
+    ref,
     status,
     data,
     error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ['photos'],
-    queryFn: fetchPhotos,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, _allPages, lastPageParam) => {
-      if (lastPage.length === 0) {
-        return undefined;
-      }
-      return lastPageParam + 1;
-    },
-  });
-
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, inView]);
+  } = useImageListing();
   return (
     <>
       {status === 'pending' ? (
-        <p>Loading...</p>
-      ) : status === 'error' ? (
-        <span>Error: {error.message}</span>
+        <LoadingIndicator />
+      ) : status === 'error' && error ? (
+        <ErrorDisplay message={error.message} />
       ) : data ? (
         <MansoryLayout items={data.pages.flat() as UnsplashImage[]} />
       ) : null}
