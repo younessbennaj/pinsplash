@@ -20,6 +20,8 @@ export function useSearchPhotosQuery({ query }: { query: string }) {
       }
       return lastPageParam + 1;
     },
+    // to comment or delete
+    staleTime: 1000 * 60 * 5,
   });
 
   const { ref } = useInfiniteScroll({ fetchNextPage });

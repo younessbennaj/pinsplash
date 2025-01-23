@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router';
 import { useSearchPhotosQuery } from '../../queries/useSearchPhotosQuery';
 import MansoryLayout from '../MansoryLayout/MansoryLayout';
 import { UnsplashImage } from '../../types';
-import SearchForm from '../SearchForm/SearchForm';
+
 import NextPageButton from '../NextPageButton/NextPageButton';
 
 function Search() {
@@ -14,12 +14,7 @@ function Search() {
     useSearchPhotosQuery({ query: query || '' });
 
   return (
-    <div>
-      <h1>Search</h1>
-      <p>
-        You searched for <i>{searchParams.get('q')}</i>
-      </p>
-      <SearchForm />
+    <>
       {data ? (
         <MansoryLayout items={data.pages.flat() as UnsplashImage[]} />
       ) : null}
@@ -30,7 +25,7 @@ function Search() {
           isFetchingNextPage={isFetchingNextPage}
         />
       </div>
-    </div>
+    </>
   );
 }
 
