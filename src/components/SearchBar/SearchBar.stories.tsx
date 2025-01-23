@@ -2,6 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import SearchBar from './SearchBar';
 
 const meta = {
+  args: {
+    value: '',
+    onChange: () => {},
+  },
   component: SearchBar,
 } satisfies Meta<typeof SearchBar>;
 
