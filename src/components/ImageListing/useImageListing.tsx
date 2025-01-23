@@ -1,8 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { UnsplashImage } from '../../types';
 import photos from '../../mocks/photos.json';
-import { useInView } from 'react-intersection-observer';
-import { useEffect } from 'react';
+import { useInfiniteScroll } from '../../queries/useInfiniteScroll';
 
 // Mock function to fetch photos
 function fetchPhotos(): Promise<UnsplashImage[]> {
@@ -18,8 +17,6 @@ function fetchPhotos(): Promise<UnsplashImage[]> {
 }
 
 export function useImageListing() {
-  const { ref, inView } = useInView();
-
   const {
     status,
     data,
@@ -38,12 +35,8 @@ export function useImageListing() {
       return lastPageParam + 1;
     },
   });
+  const { ref } = useInfiniteScroll({ fetchNextPage });
 
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, inView]);
   return {
     ref,
     status,
