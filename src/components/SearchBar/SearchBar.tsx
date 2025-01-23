@@ -1,7 +1,15 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
 
-function SearchBar({ disabled = false }: { disabled?: boolean }) {
+function SearchBar({
+  disabled = false,
+  onChange,
+  value,
+}: {
+  disabled?: boolean;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+}) {
   return (
     <div
       className={classNames(
@@ -22,7 +30,9 @@ function SearchBar({ disabled = false }: { disabled?: boolean }) {
           },
         )}
         type="text"
+        onChange={onChange}
         placeholder="Search image Eg. Landscape"
+        value={value}
       />
       <MagnifyingGlassIcon className="size-4 text-neutral-400" />
     </div>

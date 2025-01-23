@@ -1,22 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { UnsplashImage } from '../../types';
-import photos from '../../mocks/photos.json';
-import { useInfiniteScroll } from '../../queries/useInfiniteScroll';
+import { useInfiniteScroll } from './useInfiniteScroll';
+import { fetchSearchPhotos } from '../api';
 
-// Mock function to fetch photos
-function fetchPhotos(): Promise<UnsplashImage[]> {
-  const photosWithUpdatedId = photos.map((photo) => {
-    return {
-      ...photo,
-      id: window.crypto.getRandomValues(new Uint32Array(1))[0].toString(16),
-    };
-  });
-  return new Promise((resolve) => {
-    resolve(photosWithUpdatedId);
-  });
-}
-
-export function useImageListing() {
+export function useSearchPhotosQuery({ query }: { query: string }) {
   const {
     status,
     data,
@@ -25,8 +11,8 @@ export function useImageListing() {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ['photos'],
-    queryFn: fetchPhotos,
+    queryKey: ['photos', query],
+    queryFn: fetchSearchPhotos,
     initialPageParam: 0,
     getNextPageParam: (lastPage, _allPages, lastPageParam) => {
       if (lastPage.length === 0) {
@@ -37,6 +23,7 @@ export function useImageListing() {
     // to comment or delete
     staleTime: 1000 * 60 * 5,
   });
+
   const { ref } = useInfiniteScroll({ fetchNextPage });
 
   return {

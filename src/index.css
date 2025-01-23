@@ -12,11 +12,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-body {
-  padding: 1rem;
-}
-
 .container {
   position: relative;
   margin: 0 auto;

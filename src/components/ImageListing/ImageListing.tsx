@@ -1,6 +1,7 @@
 import { UnsplashImage } from '../../types';
 
 import MansoryLayout from '../MansoryLayout/MansoryLayout';
+import NextPageButton from '../NextPageButton/NextPageButton';
 import { useImageListing } from './useImageListing';
 
 function LoadingIndicator() {
@@ -30,18 +31,12 @@ function ImageListing() {
       ) : data ? (
         <MansoryLayout items={data.pages.flat() as UnsplashImage[]} />
       ) : null}
-      <div>
-        <button
-          ref={ref}
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage}
-        >
-          {isFetchingNextPage
-            ? 'Loading more...'
-            : hasNextPage
-              ? 'Load Newer'
-              : 'Nothing more to load'}
-        </button>
+      <div ref={ref}>
+        <NextPageButton
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+        />
       </div>
     </>
   );
