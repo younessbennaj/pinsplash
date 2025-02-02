@@ -50,6 +50,7 @@ function PhotoDetails() {
             />
             <span className="font-semibold">{photo?.user.name}</span>
           </div>
+          {/* <Button>Downloads</Button> */}
           <img
             className="w-full rounded-lg mb-8"
             src={photo?.urls.regular}
