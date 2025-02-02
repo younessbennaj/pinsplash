@@ -5,6 +5,7 @@ import { fetchPhotoDetails } from '../../api';
 import { useQuery } from '@tanstack/react-query';
 import classNames from 'classnames';
 import { ChevronDownIcon } from '@heroicons/react/16/solid';
+import { useToast } from '../../hooks/useToast';
 
 function usePhotoDetailsQuery({ id }: { id?: string }) {
   const { data, isLoading } = useQuery({
@@ -34,6 +35,13 @@ function formatDate(dateISO: string) {
 }
 
 function DownloadMenu({ disabled = false }: { disabled?: boolean }) {
+  const { createToast } = useToast();
+  function handleDownload() {
+    createToast({
+      message: 'Your file is successfully downloaded.',
+      variant: 'success',
+    });
+  }
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -56,13 +64,22 @@ function DownloadMenu({ disabled = false }: { disabled?: boolean }) {
           align="end"
           className="shadow-md bg-white p-2 rounded-lg border border-neutral-200"
         >
-          <DropdownMenu.Item className="p-2">
+          <DropdownMenu.Item
+            className="p-2 cursor-pointer"
+            onClick={handleDownload}
+          >
             <span className="font-semibold">Small</span> (640 x 426)
           </DropdownMenu.Item>
-          <DropdownMenu.Item className="p-2">
+          <DropdownMenu.Item
+            className="p-2 cursor-pointer"
+            onClick={handleDownload}
+          >
             <span className="font-semibold">Medium</span> (1920 x 1080)
           </DropdownMenu.Item>
-          <DropdownMenu.Item className="p-2">
+          <DropdownMenu.Item
+            className="p-2 cursor-pointer"
+            onClick={handleDownload}
+          >
             <span className="font-semibold">Large</span> (2400 x 1600)
           </DropdownMenu.Item>
         </DropdownMenu.Content>
@@ -74,6 +91,8 @@ function DownloadMenu({ disabled = false }: { disabled?: boolean }) {
 function PhotoDetails() {
   const params = useParams();
   const { photo, isLoading } = usePhotoDetailsQuery({ id: params.id });
+
+  console.log('photo', photo);
 
   return (
     <div>
