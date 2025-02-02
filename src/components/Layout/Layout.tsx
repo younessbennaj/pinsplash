@@ -11,7 +11,7 @@ function Layout() {
   }
   return (
     <div>
-      <header className="flex gap-4 p-4 md:px-[112px] items-center">
+      <header className="flex gap-4 p-4 md:px-8 lg:px-[112px] items-center">
         <nav>
           <Link to="/" onClick={handleLogoClick}>
             <img className="md:hidden" alt="pinsplash logo" src={logoXs} />
@@ -22,7 +22,7 @@ function Layout() {
           <SearchForm query={query} setQuery={setQuery} />
         </div>
       </header>
-      <div className="px-4 py-10 lg:py-12 lg:px-[112px]">
+      <div className="px-4 py-10 md:px-8 lg:py-12 lg:px-[112px]">
         <Outlet />
       </div>
     </div>
