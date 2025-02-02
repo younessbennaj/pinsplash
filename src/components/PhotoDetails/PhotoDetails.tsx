@@ -1,7 +1,10 @@
 import { useParams } from 'react-router';
+import { DropdownMenu } from 'radix-ui';
 
 import { fetchPhotoDetails } from '../../api';
 import { useQuery } from '@tanstack/react-query';
+import classNames from 'classnames';
+import { ChevronDownIcon } from '@heroicons/react/16/solid';
 
 function usePhotoDetailsQuery({ id }: { id?: string }) {
   const { data, isLoading } = useQuery({
@@ -30,11 +33,47 @@ function formatDate(dateISO: string) {
   return formattedDate;
 }
 
+function DownloadMenu({ disabled = false }: { disabled?: boolean }) {
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
+        <button
+          className={classNames(
+            ' text-sm px-[28px] py-[10px] rounded-[4px] flex gap-1 items-center',
+            {
+              'cursor-not-allowed bg-neutral-100 text-neutral-400': disabled,
+              'hover:cursor-pointer bg-indigo-700 hover:bg-indigo-800 text-white ':
+                !disabled,
+            },
+          )}
+        >
+          Downloads <ChevronDownIcon className="w-4 h-4" />
+        </button>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          sideOffset={4}
+          align="end"
+          className="shadow-md bg-white p-2 rounded-lg border border-neutral-200"
+        >
+          <DropdownMenu.Item className="p-2">
+            <span className="font-semibold">Small</span> (640 x 426)
+          </DropdownMenu.Item>
+          <DropdownMenu.Item className="p-2">
+            <span className="font-semibold">Medium</span> (1920 x 1080)
+          </DropdownMenu.Item>
+          <DropdownMenu.Item className="p-2">
+            <span className="font-semibold">Large</span> (2400 x 1600)
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  );
+}
+
 function PhotoDetails() {
   const params = useParams();
   const { photo, isLoading } = usePhotoDetailsQuery({ id: params.id });
-
-  console.log(photo);
 
   return (
     <div>
@@ -42,15 +81,17 @@ function PhotoDetails() {
         <p>Loading...</p>
       ) : (
         <div>
-          <div className="flex gap-2 mb-6">
-            <img
-              className="w-6 h-6 rounded-full"
-              src={photo?.user.profile_image.small}
-              alt={photo?.user.name}
-            />
-            <span className="font-semibold">{photo?.user.name}</span>
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex gap-2 items-center">
+              <img
+                className="w-6 h-6 rounded-full"
+                src={photo?.user.profile_image.small}
+                alt={photo?.user.name}
+              />
+              <span className="font-semibold">{photo?.user.name}</span>
+            </div>
+            <DownloadMenu />
           </div>
-          {/* <Button>Downloads</Button> */}
           <img
             className="w-full rounded-lg mb-8"
             src={photo?.urls.regular}
