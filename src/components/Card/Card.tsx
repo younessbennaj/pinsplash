@@ -6,14 +6,22 @@ import { upperFirst } from 'lodash';
 function Card({
   aspectRatio,
   item,
+  handleImageClick,
 }: {
   aspectRatio: number;
   item: UnsplashImage;
+  handleImageClick: () => void;
 }) {
   return (
     <div
       className="hover:cursor-pointer relative overflow-hidden rounded-lg group outline-none"
       tabIndex={1}
+      onClick={handleImageClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          handleImageClick();
+        }
+      }}
     >
       <ImageLoader
         aspectRatio={aspectRatio}

@@ -3,6 +3,7 @@ import { UnsplashImage } from '../../types';
 import { useEffect, useRef, useState } from 'react';
 import { throttle } from 'lodash';
 import Card from '../Card/Card';
+import { useNavigate } from 'react-router';
 
 function categorizeByRatio(width: number, height: number) {
   const ratio = width / height;
@@ -16,6 +17,7 @@ function categorizeByRatio(width: number, height: number) {
 }
 
 function MansoryLayout({ items }: { items: UnsplashImage[] }) {
+  const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [maxHeight, setMaxHeight] = useState<number>(0); // Track max height
@@ -107,6 +109,10 @@ function MansoryLayout({ items }: { items: UnsplashImage[] }) {
             <Card
               aspectRatio={categorizeByRatio(item.width, item.height)}
               item={item}
+              handleImageClick={() => {
+                console.log('Image clicked');
+                navigate(`/photos/${item.id}`);
+              }}
             />
           </div>
         );

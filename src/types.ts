@@ -84,4 +84,10 @@ export type UnsplashImage = {
       paypal_email?: string | null;
     };
   };
+  views?: number;
+  downloads?: number;
+  tags?: {
+    type: string;
+    title: string;
+  }[];
 };
