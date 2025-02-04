@@ -38,7 +38,7 @@ function DownloadMenu({
     try {
       const response = await fetch(`${downloadUrl}&w=${size}`, {
         headers: {
-          Authorization: `Client-ID tYj_8Cn_odIocP7S09mSRvkhS8D24EdMdsMJeVjP1Vw`,
+          Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}`,
         },
       });
 
