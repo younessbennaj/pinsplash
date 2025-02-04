@@ -10,6 +10,7 @@ function ImageLoader({
   height,
   srcSet,
   sizes,
+  maxHeight,
 }: {
   aspectRatio?: number;
   alt: string;
@@ -18,7 +19,8 @@ function ImageLoader({
   width: number;
   height: number;
   srcSet: string;
-  sizes: string;
+  sizes?: string;
+  maxHeight?: number;
 }) {
   const [loaded, setLoaded] = useState(false);
 
@@ -31,7 +33,7 @@ function ImageLoader({
 
     image.src = imageUrl;
     image.srcset = srcSet;
-    image.sizes = sizes;
+    image.sizes = sizes || '';
   }, [imageUrl, sizes, srcSet]);
 
   return (
@@ -73,6 +75,7 @@ function ImageLoader({
         srcSet={srcSet}
         sizes={sizes}
         style={{
+          maxHeight: maxHeight || 'auto',
           objectFit: 'cover',
           objectPosition: 'center',
           width: '100%',

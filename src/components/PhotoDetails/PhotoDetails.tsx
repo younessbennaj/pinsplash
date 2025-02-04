@@ -1,11 +1,10 @@
 import { useParams } from 'react-router';
-import { DropdownMenu } from 'radix-ui';
 
 import { fetchPhotoDetails } from '../../api';
 import { useQuery } from '@tanstack/react-query';
-import classNames from 'classnames';
-import { ChevronDownIcon } from '@heroicons/react/16/solid';
-import { useToast } from '../../hooks/useToast';
+import DownloadMenu from '../DownloadMenu/DownloadMenu';
+import { LockClosedIcon } from '@heroicons/react/16/solid';
+import ImageLoader from '../ImageLoader';
 
 function usePhotoDetailsQuery({ id }: { id?: string }) {
   const { data, isLoading } = useQuery({
@@ -34,65 +33,9 @@ function formatDate(dateISO: string) {
   return formattedDate;
 }
 
-function DownloadMenu({ disabled = false }: { disabled?: boolean }) {
-  const { createToast } = useToast();
-  function handleDownload() {
-    createToast({
-      message: 'Your file is successfully downloaded.',
-      variant: 'success',
-    });
-  }
-  return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild>
-        <button
-          className={classNames(
-            ' text-sm px-[28px] py-[10px] rounded-[4px] flex gap-1 items-center',
-            {
-              'cursor-not-allowed bg-neutral-100 text-neutral-400': disabled,
-              'hover:cursor-pointer bg-indigo-700 hover:bg-indigo-800 text-white ':
-                !disabled,
-            },
-          )}
-        >
-          Downloads <ChevronDownIcon className="w-4 h-4" />
-        </button>
-      </DropdownMenu.Trigger>
-      <DropdownMenu.Portal>
-        <DropdownMenu.Content
-          sideOffset={4}
-          align="end"
-          className="shadow-md bg-white p-2 rounded-lg border border-neutral-200"
-        >
-          <DropdownMenu.Item
-            className="p-2 cursor-pointer"
-            onClick={handleDownload}
-          >
-            <span className="font-semibold">Small</span> (640 x 426)
-          </DropdownMenu.Item>
-          <DropdownMenu.Item
-            className="p-2 cursor-pointer"
-            onClick={handleDownload}
-          >
-            <span className="font-semibold">Medium</span> (1920 x 1080)
-          </DropdownMenu.Item>
-          <DropdownMenu.Item
-            className="p-2 cursor-pointer"
-            onClick={handleDownload}
-          >
-            <span className="font-semibold">Large</span> (2400 x 1600)
-          </DropdownMenu.Item>
-        </DropdownMenu.Content>
-      </DropdownMenu.Portal>
-    </DropdownMenu.Root>
-  );
-}
-
 function PhotoDetails() {
   const params = useParams();
   const { photo, isLoading } = usePhotoDetailsQuery({ id: params.id });
-
-  console.log('photo', photo);
 
   return (
     <div>
@@ -109,13 +52,38 @@ function PhotoDetails() {
               />
               <span className="font-semibold">{photo?.user.name}</span>
             </div>
-            <DownloadMenu />
+            {photo?.premium ? (
+              <button className="bg-black text-white text-sm px-[28px] py-[10px] rounded-[4px] flex gap-1 items-center">
+                <LockClosedIcon className="w-4 h-4" />
+                <span>Premium</span>
+              </button>
+            ) : (
+              <DownloadMenu
+                photoHeight={photo?.height || 0}
+                photoWidth={photo?.width || 0}
+                downloadUrl={photo?.links.download_location}
+              />
+            )}
           </div>
-          <img
-            className="w-full rounded-lg mb-8"
-            src={photo?.urls.regular}
-            alt={photo?.alt_description || ''}
-          />
+          <div className="flex justify-center items-center mx-auto mb-8">
+            <ImageLoader
+              key={photo?.id}
+              height={photo?.height || 0}
+              width={photo?.width || 0}
+              blurhash={photo?.blur_hash || ''}
+              imageUrl={`${photo?.urls.thumb}&auto=format`}
+              alt={photo?.alt_description || photo?.description || ''}
+              srcSet={`
+              ${photo?.urls.thumb}&auto=format 200w,
+              ${photo?.urls.small}&auto=format 400w,
+              ${photo?.urls.regular}&auto=format 1080w,
+              ${photo?.urls.full}&auto=format ${photo?.width}w
+            `}
+              sizes="(max-width: 1080px) 100vw, 1080px"
+              maxHeight={520}
+            />
+          </div>
+
           <h2 className="text-2xl font-semibold mb-6">
             {photo?.description || photo?.alt_description}
           </h2>
